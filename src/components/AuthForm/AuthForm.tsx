@@ -21,24 +21,24 @@ const AuthForm: React.FC<AuthFormProps> = ({
 
   return (
     <S.FormContainer onSubmit={handleSubmit}>
-      <S.Title>Start Your Conversation!</S.Title>
+      <S.Title>AI와 진짜 대화하기</S.Title>
       <S.Input
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
+        placeholder="이메일"
         required
       />
       <S.Input
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
+        placeholder="비밀번호"
         required
       />
-      <S.Button type="submit">Start and save your chat!</S.Button>
+      <S.Button type="submit">회원가입 / 로그인</S.Button>
       <S.Button type="button" onClick={onStartWithoutAuth}>
-        Start with no auth (No save)
+        인증없이 시작하기 (저장 안 됨)
       </S.Button>
     </S.FormContainer>
   );
