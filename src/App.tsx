@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import AuthForm from "./components/AuthForm/AuthForm";
+// import ChatWindow from "./components/ChatWindow/ChatWindow";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <AuthForm
+                onSignIn={(credentials) => {
+                  console.log("sign in", credentials);
+                }}
+                onStartWithoutAuth={() => {
+                  console.log("not auth start");
+                }}
+              />
+            }
+          />
+          {/* <Route path="/chat">
+            <ChatWindow />
+          </Route> */}
+          {/* Define other routes as needed */}
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
