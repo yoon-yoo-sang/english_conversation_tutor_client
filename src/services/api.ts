@@ -6,7 +6,7 @@ import {
   Message,
 } from "../types";
 
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL = "http://localhost:8000";
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("accessToken"); // Or however you manage your tokens
@@ -59,7 +59,8 @@ export const api = {
   },
 
   fetchMessages: async (chatId: string): Promise<Message[]> => {
-    const response = await fetch(`${BASE_URL}/chats/${chatId}/messages/`, {
+    console.log(`${BASE_URL}/messages?chat=${chatId}`);
+    const response = await fetch(`${BASE_URL}/messages?chat=${chatId}`, {
       method: "GET",
       headers: {
         ...getAuthHeaders(),

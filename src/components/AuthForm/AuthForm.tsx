@@ -1,23 +1,47 @@
 import React, { useState } from "react";
-import { AuthCredentials } from "../../types"; // Adjust the import path as needed
 import * as S from "./AuthForm.styles";
+import { useNavigate } from "react-router-dom";
 
-interface AuthFormProps {
-  onSignIn: (credentials: AuthCredentials) => void;
-  onStartWithoutAuth: () => void;
-}
+const AuthForm = () => {
+  const navigate = useNavigate();
 
-const AuthForm: React.FC<AuthFormProps> = ({
-  onSignIn,
-  onStartWithoutAuth,
-}) => {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState(""); // New state for the username
   const [password, setPassword] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false); // State to track if user is signing up
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSignIn({ email, password });
+  const onSignIn = (credentials: { email: string; password: string }) => {
+    console.log("sign in", credentials);
+    // Replace with actual sign in logic
+    // navigate("/chat");
   };
+
+  const onSignUp = (credentials: {
+    email: string;
+    password: string;
+    username: string;
+  }) => {
+    console.log("sign up", credentials);
+    // Replace with actual sign up logic
+    // navigate("/chat");
+  };
+
+  const onStartWithoutAuth = () => {
+    console.log("not auth start");
+    navigate("/chat");
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const credentials = { email, password };
+    if (isSignUp) {
+      onSignUp({ ...credentials, username });
+    } else {
+      onSignIn(credentials);
+    }
+  };
+
+  const toggleSignUp = () => setIsSignUp(!isSignUp);
 
   return (
     <S.FormContainer onSubmit={handleSubmit}>
@@ -25,18 +49,36 @@ const AuthForm: React.FC<AuthFormProps> = ({
       <S.Input
         type="email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setEmail(e.target.value)
+        }
         placeholder="이메일"
         required
       />
       <S.Input
         type="password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setPassword(e.target.value)
+        }
         placeholder="비밀번호"
         required
       />
-      <S.Button type="submit">회원가입 / 로그인</S.Button>
+      {isSignUp && (
+        <S.Input
+          type="text"
+          value={username}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setUsername(e.target.value)
+          }
+          placeholder="사용자 이름"
+          required
+        />
+      )}
+      <S.Button type="submit">{isSignUp ? "회원가입" : "로그인"}</S.Button>
+      <S.ToggleSignUpButton type="button" onClick={toggleSignUp}>
+        {isSignUp ? "로그인하기" : "회원가입하기"}
+      </S.ToggleSignUpButton>
       <S.Button type="button" onClick={onStartWithoutAuth}>
         인증없이 시작하기 (저장 안 됨)
       </S.Button>
