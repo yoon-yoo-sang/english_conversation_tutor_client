@@ -31,7 +31,6 @@ const VoiceInput: React.FC<VoiceInputProps> = ({
       disabled={disabled}
     >
       <S.Icon /> {/* Replace with an actual icon component or element */}
-      Record
     </S.Button>
   );
 };

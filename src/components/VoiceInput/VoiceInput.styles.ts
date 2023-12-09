@@ -1,20 +1,16 @@
 import styled from "styled-components";
 
 export const Button = styled.button`
-  padding: 10px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%; // A circular button for voice input
   border: none;
-  background-color: #f5f5f5; // Use a neutral color, adjust as necessary
-  color: #333;
+  background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   outline: none;
-
-  &:hover {
-    background-color: #e8e8e8; // Slightly darker on hover
-  }
 
   &:active {
     background-color: #d8d8d8; // Slightly darker when active/pressed

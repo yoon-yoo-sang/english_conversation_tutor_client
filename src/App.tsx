@@ -10,7 +10,7 @@ const App: React.FC = () => {
         <div className="App">
           <Routes>
             <Route path="/" element={<AuthForm />} />
-            <Route path="/chat" element={<ChatWindow chatId="1" />} />
+            <Route path="/chat" element={<ChatWindow />} />
             {/* Define other routes as needed */}
           </Routes>
         </div>

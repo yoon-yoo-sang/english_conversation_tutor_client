@@ -1,29 +1,48 @@
 import React, { useState } from "react";
 import * as S from "./AuthForm.styles";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
+import { setToken } from "../../utils/tokenUtils";
 
 const AuthForm = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState(""); // New state for the username
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(""); // New state for the username
   const [isSignUp, setIsSignUp] = useState(false); // State to track if user is signing up
 
-  const onSignIn = (credentials: { email: string; password: string }) => {
+  const onSignIn = async (credentials: { email: string; password: string }) => {
     console.log("sign in", credentials);
-    // Replace with actual sign in logic
-    // navigate("/chat");
+    try {
+      const signInResponse = await api.obtainToken(email, password);
+      setToken(signInResponse.access);
+      console.log("Tokens:", signInResponse);
+    } catch (error) {
+      console.error("Sing In failed", error);
+    }
+    navigate("/chat");
   };
 
-  const onSignUp = (credentials: {
-    email: string;
-    password: string;
-    username: string;
-  }) => {
-    console.log("sign up", credentials);
-    // Replace with actual sign up logic
-    // navigate("/chat");
+  const onSignUp = async () => {
+    try {
+      const signUpResponse = await api.signUp(email, password, username);
+      if (signUpResponse.status === 201) {
+        // If sign up successful, obtain token
+        const tokenResponse = await api.obtainToken(email, password);
+        setToken(tokenResponse.access);
+        // Store tokens and handle authenticated state
+        console.log("Tokens:", tokenResponse);
+        // Navigate to chat or another authenticated page
+      } else {
+        const errorData = await signUpResponse.json();
+        console.error("Sign up error:", errorData);
+        // Handle sign-up error (e.g., show error message to user)
+      }
+    } catch (error) {
+      console.error("Sign up failed:", error);
+      // Handle network or other unexpected errors
+    }
   };
 
   const onStartWithoutAuth = () => {
@@ -35,7 +54,7 @@ const AuthForm = () => {
     e.preventDefault();
     const credentials = { email, password };
     if (isSignUp) {
-      onSignUp({ ...credentials, username });
+      onSignUp();
     } else {
       onSignIn(credentials);
     }

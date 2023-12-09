@@ -9,6 +9,8 @@ export const MessageContainer = styled.div<MessageContainerProps>`
   flex-direction: column;
   align-items: ${({ isUserMessage }) =>
     isUserMessage ? "flex-end" : "flex-start"};
+  align-self: ${({ isUserMessage }) =>
+    isUserMessage ? "flex-end" : "flex-start"};
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 20px;

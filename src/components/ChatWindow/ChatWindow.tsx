@@ -7,53 +7,60 @@ import TextInput from "../TextInput/TextInput";
 import VoiceInput from "../VoiceInput/VoiceInput";
 import api from "../../services/api";
 
-interface ChatWindowProps {
-  chatId: string; // If you need to fetch messages based on a chat ID
-}
-
-const ChatWindow: React.FC<ChatWindowProps> = ({ chatId }) => {
+const ChatWindow: React.FC = () => {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
 
   useEffect(() => {
     // Placeholder function to simulate fetching messages
     const fetchMessages = async () => {
-      const fetchedMessages: MessageType[] = await api.fetchMessages("1");
-      setMessages(fetchedMessages);
+      try {
+        const fetchedMessages: MessageType[] =
+          await api.fetchUserChatMessages();
+        setMessages(fetchedMessages);
+      } catch (error) {
+        console.error("Failed to fetch messages:", error);
+        // 오류를 적절하게 처리하세요
+      }
     };
 
     fetchMessages();
-  }, [chatId]);
+  }, []);
 
   return (
     <S.ChatContainer>
       <S.MessagesList>
-        {messages.map((message) => (
-          <Message key={message.id} {...message} />
-        ))}
+        {messages
+          .map((message) => <Message key={message.id} {...message} />)
+          .reverse()}
       </S.MessagesList>
-      <TextInput
-        value={inputValue}
-        onChange={(value) => setInputValue(value)}
-        placeholder="Type a message..."
-        onEnter={() => {
-          console.log("enter");
-        }}
-      />
-      <SendButton
-        onSend={() => {
-          console.log("send");
-        }}
-        disabled={false}
-      />
-      <VoiceInput
-        onVoiceRecordStart={() => {
-          console.log("start");
-        }}
-        onVoiceRecordEnd={() => {
-          console.log("end");
-        }}
-      />
+      <S.InputContainer>
+        <TextInput
+          value={inputValue}
+          onChange={(value) => setInputValue(value)}
+          placeholder="Type a message..."
+          onEnter={() => {
+            console.log("enter");
+          }}
+        />
+        {inputValue ? (
+          <SendButton
+            onSend={() => {
+              console.log("send");
+            }}
+            disabled={false}
+          />
+        ) : (
+          <VoiceInput
+            onVoiceRecordStart={() => {
+              console.log("start");
+            }}
+            onVoiceRecordEnd={() => {
+              console.log("end");
+            }}
+          />
+        )}
+      </S.InputContainer>
     </S.ChatContainer>
   );
 };

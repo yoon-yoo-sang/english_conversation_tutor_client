@@ -1,17 +1,18 @@
 import styled from "styled-components";
 
 export const Button = styled.button`
-  padding: 10px 20px;
+  width: 50px;
+  height: 50px;
   border-radius: 5px;
+  background-color: transparent;
   border: none;
-  background-color: #007bff; // Use your theme's color
-  color: white;
-  font-size: 1rem;
+  color: gray;
+  font-size: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #0056b3; // Darken the button on hover
+    color: #007bff; // Darken the button on hover
   }
 
   &:disabled {

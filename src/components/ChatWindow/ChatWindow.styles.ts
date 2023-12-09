@@ -19,17 +19,17 @@ export const MessagesList = styled.div`
   overflow-y: auto;
   padding: 10px;
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column-reverse;
   /* Additional styles for your message list */
 `;
 
-export const MessageInput = styled.input`
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
+export const InputContainer = styled.div`
+  display: flex;
 `;
 
 export const SendButton = styled.button`
+  width: 30px;
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
